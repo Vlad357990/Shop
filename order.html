@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>طلب المنتج</title>
+  <style>
+    body {
+      background-color: #1b263b;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    form {
+      background: #415a77;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      background-color: #00b4d8;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0096c7;
+    }
+  </style>
+</head>
+<body>
+  <h2>طلب منتج</h2>
+  <form id="orderForm">
+    <input type="text" name="name" placeholder="الاسم الكامل" required>
+    <input type="tel" name="phone" placeholder="رقم الهاتف" required>
+    <input type="text" name="address" placeholder="العنوان الكامل" required>
+    <input type="text" id="product" name="product" readonly>
+    <input type="number" name="quantity" placeholder="الكمية" required>
+    <input type="text" id="price" name="price" readonly>
+    <button type="submit">أرسل الطلب</button>
+  </form>  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    document.getElementById("product").value = urlParams.get("product") || "";
+    document.getElementById("price").value = urlParams.get("price") || "";
+
+    document.getElementById("orderForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      fetch("https://script.google.com/macros/s/AKfycbw5AwSI36XcsmJC8qMn9AnpLl8Xa8X5kWdfsfP4B1VDGGuuU9XI8BOFgO3tAcSMMOCQ/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => {
+        alert("✅ تم إرسال الطلب بنجاح!");
+        window.location.href = "index.html";
+      })
+      .catch(err => alert("❌ حدث خطأ: " + err));
+    });
+  </script></body>
+</html>
